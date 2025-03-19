@@ -66,6 +66,18 @@ class AuthController {
       });
     }
   }
+
+  async getAllUsers(req, res) {
+    try {
+      const users = await authService.getAllUsers();
+      res.status(200).json(users);
+    } catch (error) {
+      res.status(error.statusCode || 500).json({
+        error: true,
+        message: error.message,
+      });
+    }
+  }
 }
 
 export default new AuthController();

@@ -11,6 +11,14 @@ class AuthModel {
     });
   }
 
+  async getAll() {
+    return await prisma.user.findMany({
+      include: {
+        posts: true,
+      },
+    });
+  }
+
   async findById(id) {
     return await prisma.user.findUnique({
       where: {

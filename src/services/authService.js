@@ -16,6 +16,10 @@ class AuthService {
     return await authModel.findById(id);
   }
 
+  async getAllUsers() {
+    return await authModel.getAll();
+  }
+
   async updateUser(id, data) {
     return await authModel.update(id, data);
   }

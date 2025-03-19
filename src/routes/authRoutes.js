@@ -12,3 +12,5 @@ authRoutes.post("/login", validate(loginSchema), authController.login);
 authRoutes.post("/refresh-token", authController.refreshToken);
 
 authRoutes.post("/logout", authController.logOut);
+
+authRoutes.get("/", authController.getAllUsers);
