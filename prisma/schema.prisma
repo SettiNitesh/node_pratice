@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Todo {
+  uid         String   @unique @default(uuid())
+  title       String
+  description String?
+  completed   Boolean? @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  User        User?    @relation(fields: [userUid], references: [uid])
+  userUid     String?
+}
+
+model User {
+  uid          String   @unique @default(uuid())
+  name         String
+  email        String   @unique
+  password     String   @default("") @map(name: "password_hash") @db.VarChar(1024)
+  todos        Todo[]
+  posts        Post[]
+  refreshToken String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Post {
+  uid       String   @unique @default(uuid())
+  title     String
+  content   String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [uid])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
