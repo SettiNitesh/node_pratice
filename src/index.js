@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import { logger } from "./middlewares/logger.js";
 import { authRoutes } from "./routes/authRoutes.js";
 import { dashboardRoutes } from "./routes/dashboardRoutes.js";
 import { todoRoutes } from "./routes/todoRoutes.js";
@@ -20,6 +21,11 @@ app.use(express.json());
 
 app.use(cookieParser());
 
+app.use((req, _res, next) => {
+  logger.info(`Incoming request: ${req.method} ${req.url}`);
+  next();
+});
+
 app.use("/api/v1/todos", todoRoutes);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/dashboard", dashboardRoutes);
@@ -35,7 +41,7 @@ app.get("/health", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(
+  logger.info(
     `Server is running on port ${PORT} and access at http://localhost:${PORT}/`
   );
 });
