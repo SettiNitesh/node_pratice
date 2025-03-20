@@ -67,7 +67,7 @@ class AuthController {
     }
   }
 
-  async getAllUsers(req, res) {
+  async getAllUsers(_req, res) {
     try {
       const users = await authService.getAllUsers();
       res.status(200).json(users);
