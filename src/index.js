@@ -21,6 +21,10 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+app.set("json spaces", 2);
+app.set("view engine", "ejs");
+app.set("views", __dirname + "/views");
+
 app.use(
   cors({
     origin: process.env.FRONTEND_URL,
@@ -45,10 +49,6 @@ app.use((req, _res, next) => {
 app.use("/api/v1/todos", todoRoutes);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/dashboard", dashboardRoutes);
-
-app.set("json spaces", 2);
-app.set("view engine", "ejs");
-app.set("views", __dirname + "/views");
 
 app.get("/", (_req, res) => {
   res.status(200).send("Hello World");
